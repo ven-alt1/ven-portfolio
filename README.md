@@ -1,6 +1,6 @@
 # Ven's Portfolio
 
-An interactive, sticker-wall personal portfolio for **Venkatesh (Ven)** — Sydney-based, finance · accounting · commercial.
+An interactive, sticker-wall personal portfolio for **Venkatesh (Ven)** 
 
 Click and drag the stickers — each one does something (plays a song, links out, fires a popup). The centre card cycles through who I am, and there's a live stock-portfolio page.
 
