@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ven's Stock Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0A0A0B;--bg-2:#101012;--ink:#ECECEE;--muted:#8C8C92;--muted-2:#5E5E66;
+    --line:rgba(255,255,255,0.08);--green:#7CFCA0;--acc:#D8FF6B;--red:#FF6B6B;
+    --ease:cubic-bezier(0.32,0.72,0,1);--spring:cubic-bezier(0.34,1.56,0.64,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100dvh}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,0.05) 1px,transparent 1px);background-size:26px 26px;-webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,#000 50%,transparent 100%);mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,#000 50%,transparent 100%)}
+  .glow{position:fixed;width:680px;height:420px;border-radius:50%;filter:blur(130px);opacity:.13;background:radial-gradient(circle,var(--green),transparent 65%);top:-160px;left:50%;transform:translateX(-50%);pointer-events:none}
+  a{color:inherit;text-decoration:none}
+  .wrap{position:relative;z-index:2;max-width:860px;margin:0 auto;padding:0 24px}
+
+  /* top bar */
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
+  .back{display:inline-flex;align-items:center;gap:9px;font-size:13.5px;font-weight:600;color:var(--muted);background:rgba(255,255,255,0.04);border:1px solid var(--line);padding:9px 15px 9px 12px;border-radius:999px;transition:transform .35s var(--spring),color .25s,background .25s}
+  .back:hover{color:var(--ink);background:rgba(255,255,255,0.08);transform:translateY(-2px)}
+  .badge{font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--green);display:flex;align-items:center;gap:8px}
+  .badge .dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green)}
+
+  /* header / summary */
+  header.head{padding:34px 0 26px}
+  .eyebrow{font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--muted)}
+  h1{font-family:'Space Grotesk';font-size:clamp(34px,6vw,54px);font-weight:600;letter-spacing:-0.03em;margin-top:14px;line-height:1.04}
+  h1 em{font-style:normal;color:var(--acc)}
+  .sub{color:var(--muted);font-size:15.5px;margin-top:14px;max-width:560px}
+
+  .stats{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
+  .stat{background:var(--bg-2);border:1px solid var(--line);border-radius:18px;padding:18px 22px;min-width:150px}
+  .stat .l{font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted-2)}
+  .stat .v{font-family:'Space Grotesk';font-size:28px;font-weight:600;letter-spacing:-0.02em;margin-top:6px}
+  .pos{color:var(--green)} .neg{color:var(--red)}
+
+  /* table */
+  .panel{background:var(--bg-2);border:1px solid var(--line);border-radius:22px;overflow:hidden;margin-top:8px}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  thead th{font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted-2);text-align:left;padding:16px 20px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none;white-space:nowrap;transition:color .2s}
+  thead th:hover{color:var(--muted)}
+  thead th.num{text-align:right}
+  thead th .arr{opacity:0;margin-left:5px}
+  thead th.sorted .arr{opacity:1}
+  tbody td{padding:15px 20px;border-bottom:1px solid rgba(255,255,255,0.05)}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr{transition:background .2s}
+  tbody tr:hover{background:rgba(255,255,255,0.025)}
+  .tkr{font-family:'JetBrains Mono';font-weight:600;color:#fff;font-size:13.5px}
+  .nm{color:var(--muted);font-size:13px;margin-top:2px}
+  td.num{text-align:right;font-family:'JetBrains Mono';font-weight:600;white-space:nowrap}
+  /* allocation cell with bar */
+  .alloc{display:flex;align-items:center;justify-content:flex-end;gap:10px}
+  .alloc .bar{width:54px;height:6px;border-radius:99px;background:rgba(255,255,255,0.08);overflow:hidden}
+  .alloc .bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--green),var(--acc))}
+  .alloc .pct{font-family:'JetBrains Mono';font-size:13px;color:var(--ink);min-width:38px}
+
+  .note{margin:18px 2px 0;font-size:12.5px;color:var(--muted-2)}
+  .disc{margin:30px 0 60px;font-size:12px;color:var(--muted-2);line-height:1.6;border-top:1px solid var(--line);padding-top:18px}
+
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+  @media(max-width:620px){
+    .nm{display:none}
+    .col-avg{display:none}
+    thead th,tbody td{padding:13px 12px}
+    .alloc .bar{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="wrap">
+
+  <div class="topbar">
+    <a class="back" href="index.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+      Portfolio
+    </a>
+    <div class="badge"><span class="dot"></span> <span id="liveLabel">Updated <span id="updated">—</span></span></div>
+  </div>
+
+  <header class="head">
+    <div class="eyebrow">Personal investing · self-directed</div>
+    <h1>Ven's <em>Stock Portfolio</em></h1>
+    <p class="sub">A transparent look at how I put my own money to work — the picks, the weightings, and the returns. Quantities and dollar amounts kept private; this is about judgment, not size.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="l">Total return</div><div class="v" id="totRet">—</div></div>
+      <div class="stat"><div class="l">Top performer</div><div class="v" id="topPerf" style="font-size:20px">—</div></div>
+      <div class="stat"><div class="l">Positions</div><div class="v" id="count">—</div></div>
+    </div>
+  </header>
+
+  <div class="panel">
+    <table id="tbl">
+      <thead>
+        <tr>
+          <th data-key="ticker">Holding <span class="arr">↓</span></th>
+          <th data-key="avg" class="num col-avg">Avg <span class="arr">↓</span></th>
+          <th data-key="price" class="num">Price <span class="arr">↓</span></th>
+          <th data-key="alloc" class="num">Allocation <span class="arr">↓</span></th>
+          <th data-key="ret" class="num sorted">Return <span class="arr">↓</span></th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+  <p class="note" id="thesisNote"></p>
+
+  <p class="disc">
+    Holdings shown reflect a self-directed personal account and are updated manually. Return figures are position-level and exclude share counts and dollar values by choice.
+    <strong>This is not investment advice or a recommendation</strong> — it's a record of my own decisions for portfolio/illustrative purposes.
+  </p>
+</div>
+
+<script src="stocks.js" defer></script>
+</body>
+</html>

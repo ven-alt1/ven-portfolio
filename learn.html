@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Learn with Ven — coming soon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root{--bg:#0A0A0B;--ink:#ECECEE;--muted:#8C8C92;--line:rgba(255,255,255,0.08);--green:#7CFCA0;--acc:#D8FF6B;--ease:cubic-bezier(0.32,0.72,0,1);--spring:cubic-bezier(0.34,1.56,0.64,1)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100dvh;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;-webkit-font-smoothing:antialiased;overflow:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,0.06) 1px,transparent 1px);background-size:26px 26px;-webkit-mask-image:radial-gradient(ellipse 90% 80% at 50% 45%,#000 55%,transparent 100%);mask-image:radial-gradient(ellipse 90% 80% at 50% 45%,#000 55%,transparent 100%)}
+  .glow{position:fixed;width:600px;height:420px;border-radius:50%;filter:blur(120px);opacity:.16;background:radial-gradient(circle,var(--acc),transparent 65%);top:50%;left:50%;transform:translate(-50%,-55%);pointer-events:none}
+  .wrap{position:relative;z-index:2;max-width:560px}
+  .tag{display:inline-flex;align-items:center;gap:9px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--acc);border:1px solid var(--line);background:rgba(255,255,255,0.04);padding:7px 14px;border-radius:999px}
+  .tag .dot{width:7px;height:7px;border-radius:50%;background:var(--acc);box-shadow:0 0 10px var(--acc)}
+  h1{font-family:'Space Grotesk';font-size:clamp(34px,7vw,64px);font-weight:600;letter-spacing:-0.03em;margin-top:24px;line-height:1.04}
+  h1 em{font-style:normal;color:var(--acc)}
+  p{color:var(--muted);font-size:17px;margin-top:18px}
+  .back{display:inline-flex;align-items:center;gap:10px;margin-top:36px;font-size:14.5px;font-weight:600;background:var(--acc);color:#0E0E10;padding:12px 12px 12px 22px;border-radius:999px;transition:transform .35s var(--spring)}
+  .back .d{width:27px;height:27px;border-radius:50%;background:rgba(14,14,16,0.14);display:grid;place-items:center}
+  .back:hover{transform:translateY(-2px)}
+  a{text-decoration:none}
+</style>
+</head>
+<body>
+  <div class="glow"></div>
+  <div class="wrap">
+    <span class="tag"><span class="dot"></span> Coming soon</span>
+    <h1>Learn <em>with Ven</em></h1>
+    <p>Walkthroughs on modelling, valuation and accounting — explained simply. Launching here soon.</p>
+    <a class="back" href="index.html">
+      Back to portfolio
+      <span class="d"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></span>
+    </a>
+  </div>
+</body>
+</html>
