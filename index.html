@@ -166,8 +166,20 @@
   .stk-logo{background:#fff;border-radius:15px;padding:3.5px;box-shadow:0 14px 26px -10px rgba(0,0,0,0.7)}
   .stk-logo img{display:block;width:100%;height:auto;border-radius:12px;-webkit-user-drag:none;user-drag:none}
 
-  @media(max-width:820px){.sticker{display:none}}
-  @media(max-width:560px){.topbar{padding:14px 16px}.brand span.t{display:none}}
+  @media(max-width:600px){
+    .topbar{padding:12px 13px}
+    .hub{width:88vw}
+    .terminal{padding:13px 16px 14px;min-height:0;border-radius:18px}
+    .term-head{margin-bottom:9px}
+    .term-foot{margin-top:12px}
+    .term-body{font-size:12.5px;line-height:1.55}
+    .navc{width:27px;height:27px}
+    .term-cta{font-size:11.5px;padding:7px 12px}
+    .join{font-size:12px}
+    .stage-glow{width:420px;height:380px}
+    .sticker-pop{font-size:11.5px;padding:8px 12px}
+  }
+  @media(max-width:380px){.brand span.t{display:none}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important}.cursor{display:none}}
 </style>
 </head>
@@ -368,6 +380,48 @@
     .then(r => r.json())
     .then(d => { if (d && typeof d.count === 'number') localStorage.setItem('venAuraLast', d.count); })
     .catch(()=>{});
+
+  // ---- mobile: shrink + rearrange the stickers into top/bottom bands around the card ----
+  const MOBILE_Q = window.matchMedia('(max-width:600px)');
+  const mobileLayout = {
+    'MacBook':   {t:'3%',  l:'2%',  w:64},
+    'Ven':       {t:'1%',  l:'34%', w:88},
+    'Polaroid':  {t:'4%',  l:'77%', w:50},
+    'UNSW':      {t:'16%', l:'4%',  w:54},
+    'Headphones':{t:'18%', l:'42%', w:48},
+    'Cash':      {t:'15%', l:'73%', w:58},
+    'Robot':     {t:'68%', l:'3%',  w:60},
+    'Coffee':    {t:'68%', l:'40%', w:52},
+    'Phone':     {t:'67%', l:'77%', w:52},
+    'LinkedIn':  {t:'83%', l:'7%',  w:50},
+    'Kangaroo':  {t:'83%', l:'33%', w:86},
+    'Basketball':{t:'85%', l:'76%', w:50},
+    'Thumbs up': {t:'88%', l:'45%', w:46}
+  };
+  function applyMobileLayout(){
+    const mob = MOBILE_Q.matches;
+    document.querySelectorAll('.sticker').forEach(s=>{
+      const inner = s.firstElementChild;
+      if(!s.dataset.dinit){           // remember the desktop position/size once
+        s.dataset.dtop = s.style.top||''; s.dataset.dleft = s.style.left||'';
+        s.dataset.dright = s.style.right||''; s.dataset.dbottom = s.style.bottom||'';
+        s.dataset.dw = (inner && inner.style.width) || '';
+        s.dataset.dinit = '1';
+      }
+      const m = mobileLayout[s.dataset.id];
+      if(mob && m){
+        s.style.top = m.t; s.style.left = m.l; s.style.right = 'auto'; s.style.bottom = 'auto';
+        if(inner) inner.style.width = m.w + 'px';
+      } else {
+        s.style.top = s.dataset.dtop; s.style.left = s.dataset.dleft;
+        s.style.right = s.dataset.dright; s.style.bottom = s.dataset.dbottom;
+        if(inner) inner.style.width = s.dataset.dw;
+      }
+    });
+  }
+  applyMobileLayout();
+  if(MOBILE_Q.addEventListener) MOBILE_Q.addEventListener('change', applyMobileLayout);
+  else MOBILE_Q.addListener(applyMobileLayout);
 
   // YouTube IFrame API player — lets us set a low volume and pause/resume
   const SONG_VOLUME = 22;      // 0–100, keep it gentle
