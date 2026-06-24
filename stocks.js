@@ -93,15 +93,24 @@ function setStatus(text, live) {
 
 async function refreshPrices() {
   if (!FINNHUB_TOKEN) { setStatus("Snapshot · " + meta.snapshot, false); return; }
-  let ok = 0;
+  let ok = 0, latestT = 0;
   await Promise.all(holdings.map(async h => {
     try {
       const q = await (await fetch(`https://finnhub.io/api/v1/quote?symbol=${h.ticker}&token=${FINNHUB_TOKEN}`)).json();
-      if (q && typeof q.c === "number" && q.c > 0) { h.price = q.c; h.dp = q.dp; ok++; }
+      if (q && typeof q.c === "number" && q.c > 0) { h.price = q.c; h.dp = q.dp; if (q.t) latestT = Math.max(latestT, q.t); ok++; }
     } catch (e) { /* keep last good price */ }
   }));
-  const now = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
-  setStatus(ok ? "LIVE · " + now : "Snapshot · " + meta.snapshot, ok > 0);
+  // market is "live" only if the freshest quote is within the last few minutes (US regular session)
+  const live = latestT && (Date.now() / 1000 - latestT) < 180;
+  if (!ok) {
+    setStatus("Snapshot · " + meta.snapshot, false);
+  } else if (live) {
+    const now = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    setStatus("LIVE · " + now, true);
+  } else {
+    const c = new Date(latestT * 1000);
+    setStatus("US market closed · last close " + c.toLocaleDateString([], { day: "2-digit", month: "short" }), false);
+  }
   paint();
 }
 
