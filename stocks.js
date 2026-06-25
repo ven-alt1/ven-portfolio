@@ -6,19 +6,20 @@
    =========================================================== */
 const FINNHUB_TOKEN = "d8npok1r01qvvn99skogd8npok1r01qvvn99skp0";   // finnhub.io key (live quotes)
 
-const meta = { snapshot: "24 Jun 2026" };
+const meta = { snapshot: "25 Jun 2026" };
 
 const holdings = [
-  { ticker: "DRAM", name: "Roundhill Memory ETF",            avg: 59.306,  last: 70.320,  alloc: 36.29, note: "" },
-  { ticker: "NOWL", name: "GraniteShares 2x Long NOW ETF",   avg: 4.398,   last: 4.175,   alloc: 10.34, note: "" },
-  { ticker: "OUST", name: "Ouster",                          avg: 38.640,  last: 46.750,  alloc:  9.65, note: "" },
-  { ticker: "MRVL", name: "Marvell Technology",              avg: 253.445, last: 280.415, alloc:  8.61, note: "" },
-  { ticker: "CRDO", name: "Credo Technology",                avg: 228.617, last: 266.620, alloc:  8.54, note: "" },
-  { ticker: "AMBA", name: "Ambarella",                       avg: 82.677,  last: 67.990,  alloc:  6.61, note: "" },
-  { ticker: "URA",  name: "Global X Uranium ETF",            avg: 49.865,  last: 46.200,  alloc:  5.67, note: "" },
-  { ticker: "NOK",  name: "Nokia",                           avg: 15.095,  last: 13.650,  alloc:  5.66, note: "" },
-  { ticker: "INFQ", name: "Infleqtion",                      avg: 14.597,  last: 16.120,  alloc:  4.99, note: "" },
-  { ticker: "HUMN", name: "Roundhill Humanoid Robotics ETF", avg: 38.110,  last: 33.927,  alloc:  3.50, note: "" }
+  { ticker: "DRAM", name: "Roundhill Memory ETF",            avg: 59.306,  last: 76.910,  alloc: 33.91, note: "" },
+  { ticker: "NOK",  name: "Nokia",                           avg: 14.325,  last: 14.020,  alloc: 12.39, note: "" },
+  { ticker: "NOWL", name: "GraniteShares 2x Long NOW ETF",   avg: 4.398,   last: 3.920,   alloc:  8.30, note: "" },
+  { ticker: "CRDO", name: "Credo Technology",                avg: 228.617, last: 280.020, alloc:  7.66, note: "" },
+  { ticker: "MRVL", name: "Marvell Technology",              avg: 253.445, last: 286.800, alloc:  7.52, note: "" },
+  { ticker: "OUST", name: "Ouster",                          avg: 38.640,  last: 42.290,  alloc:  7.46, note: "" },
+  { ticker: "AAOI", name: "Applied Optoelectronics",         avg: 153.810, last: 152.010, alloc:  5.98, note: "" },
+  { ticker: "AMBA", name: "Ambarella",                       avg: 82.677,  last: 64.810,  alloc:  5.39, note: "" },
+  { ticker: "URA",  name: "Global X Uranium ETF",            avg: 49.865,  last: 44.790,  alloc:  4.69, note: "" },
+  { ticker: "INFQ", name: "Infleqtion",                      avg: 14.597,  last: 14.120,  alloc:  3.73, note: "" },
+  { ticker: "HUMN", name: "Roundhill Humanoid Robotics ETF", avg: 38.110,  last: 33.550,  alloc:  2.96, note: "" }
 ];
 /* =========================================================== */
 
